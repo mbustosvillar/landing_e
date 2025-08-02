@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta SEO y OG actualizadas según la guía -->
+    <title>NectarLux Studio — Limpieza Energética y KAE</title>
+    <meta name="description" content="NectarLux Studio: Limpiezas energéticas profundas y activaciones KAE para tu transformación interior y armonía. Descubrí tu luz.">
+    <meta property="og:title" content="NectarLux Studio — Limpieza Energética y KAE">
+    <meta property="og:description" content="NectarLux Studio: Limpiezas energéticas profundas y activaciones KAE para tu transformación interior y armonía. Descubrí tu luz.">
+    <meta property="og:image" content="https://placehold.co/1200x630/D1CFCB/2A2B8D?text=NectarLux+Studio+Preview">
+    <meta property="og:url" content="https://nectarlux.com/studio">
+    <link rel="canonical" href="https://nectarlux.com/studio">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Anek+Latin:wght@300;400&display=swap" rel="stylesheet">
+    <!-- Se mantiene Anek Latin para el cuerpo, pero se usa Inter en la descripción de la guía.
+         Para este MVP, mantendremos Anek Latin para no añadir otra fuente.
+         Si se desea Inter, se debería reemplazar Anek Latin aquí. -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.9.1/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.9.1/dist/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --color-fondo: #F9F7F6; /* Marfil */
+            --color-texto: #2E3F60; /* Azul pizarra */
+            --color-destello: #D4B17A; /* Dorado suave */
+            --color-borde: #EFD5DC; /* Rosa polvo */
+        }
+        body {
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            font-family: 'Anek Latin', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        /* Estilo para las glass cards */
+        .glass-card {
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.6); /* Blanco con 60% de opacidad para el efecto de vidrio */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Borde blanco con 30% de opacidad */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 1rem; /* rounded-2xl */
+            padding: 2rem; /* p-8 */
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease-in-out;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        }
+        /* Estilos mejorados para el botón primario (outline dorado) */
+        .btn-primary {
+            @apply inline-block rounded-full px-8 py-3 font-display font-semibold uppercase tracking-widest transition-all duration-300 ease-in-out;
+            border: 2px solid var(--color-destello); /* Borde dorado */
+            color: var(--color-destello); /* Texto dorado */
+            background-color: transparent;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+        }
+        .btn-primary:hover {
+            background-color: var(--color-destello); /* Fondo dorado */
+            color: var(--color-fondo); /* Texto marfil */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al hacer hover */
+            transform: translateY(-2px); /* Pequeño levantamiento */
+        }
+        .btn-primary:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px white, 0 0 0 4px var(--color-destello); /* Focus ring blanco 2px */
+        }
+        /* Estilos mejorados para el botón sólido primario (fondo dorado) */
+        .btn-solid-primary {
+            @apply inline-block rounded-full px-8 py-3 font-display font-semibold uppercase tracking-widest transition-all duration-300 ease-in-out;
+            background-color: var(--color-destello); /* Fondo dorado */
+            color: var(--color-fondo); /* Texto marfil */
+            border: 2px solid var(--color-destello);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+        }
+        .btn-solid-primary:hover {
+            background-color: transparent;
+            color: var(--color-destello);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al hacer hover */
+            transform: translateY(-2px); /* Pequeño levantamiento */
+        }
+        .btn-solid-primary:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px white, 0 0 0 4px var(--color-destello);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out; /* Duración de 1.2s */
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Estilo para el símbolo de estrella octogonal */
+        .octagonal-star {
+            display: inline-block;
+            width: 1em; /* Ajusta el tamaño según sea necesario */
+            height: 1em;
+            background-color: currentColor; /* Usa el color del texto actual */
+            mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L9.19 8.63L2 9.24L7.45 13.1L5.82 20L12 16.1L18.18 20L16.55 13.1L22 9.24L14.81 8.63L12 2Z" fill="currentColor"/></svg>') no-repeat center / contain;
+            -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L9.19 8.63L2 9.24L7.45 13.1L5.82 20L12 16.1L18.18 20L16.55 13.1L22 9.24L14.81 8.63L12 2Z" fill="currentColor"/></svg>') no-repeat center / contain;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <header id="nav-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-fondo/80 shadow-md backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h4 class="font-display text-2xl font-bold tracking-wider text-texto">NectarLux Studio</h4>
+            <nav role="navigation" aria-label="Menú principal" class="hidden md:flex space-x-8 font-display uppercase tracking-widest text-sm text-texto">
+                <a href="#hero" class="nav-link hover:text-destello transition-colors" aria-label="Ir a la sección de inicio">Inicio</a>
+                <a href="#about" class="nav-link hover:text-destello transition-colors" aria-label="Ir a la sección sobre nosotros">Sobre Nosotros</a>
+                <a href="#services" class="nav-link hover:text-destello transition-colors" aria-label="Ir a la sección de servicios">Servicios</a>
+                <a href="#testimonials" class="nav-link hover:text-destello transition-colors" aria-label="Ir a la sección de testimonios">Testimonios</a>
+                <a href="#contact" class="nav-link hover:text-destello transition-colors" aria-label="Ir a la sección de contacto">Contacto</a>
+            </nav>
+            <!-- Mobile Hamburger Button - Not implemented for simplicity in this standalone page -->
+        </div>
+    </header>
+
+    <main>
+        <!-- Sección Hero con imagen difusa y parallax -->
+        <section id="hero" class="relative h-screen min-h-[600px] flex items-center justify-center text-center p-4 overflow-hidden
+                                  bg-gradient-to-br from-[#EFD5DC] to-[#F9F7F6]">
+            <!-- Imagen de fondo con opacidad y sin pointer-events para que no interfiera con el contenido -->
+            <img src="https://placehold.co/D4B17A/FFFFFF" alt="Fondo etéreo con halo de luz difusa"
+                 class="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" loading="lazy" id="hero-image">
+            <div class="relative z-10 flex flex-col items-center">
+                <h1 class="font-display text-5xl md:text-7xl font-bold mb-6 text-texto fade-in" style="transition-delay: 200ms;">NectarLux Studio</h1>
+                <p class="max-w-3xl text-lg md:text-xl text-texto/80 mb-12 leading-relaxed fade-in" style="transition-delay: 400ms;">
+                    Limpiezas energéticas y Activaciones KAE para tu transformación y armonía.
+                </p>
+                <!-- Botón "Explorar Servicios" ahora con smooth scroll -->
+                <a href="#services" class="btn-solid-primary fade-in scroll-link" style="transition-delay: 600ms;" aria-label="Explorar nuestros servicios">Explorar Servicios</a>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center max-w-4xl">
+                <div class="fade-in">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-6 text-texto">Nuestro Propósito</h2>
+                    <p class="text-xl md:text-2xl text-texto/80 leading-relaxed mb-8 font-light">Despertando tu luz interior.</p>
+                    <p class="text-base md:text-lg text-texto/70 leading-loose">
+                        En NectarLux Studio, nos dedicamos a facilitar tu camino hacia la claridad y el equilibrio energético. A través de técnicas ancestrales y modernas, te ayudamos a liberar bloqueos, purificar tu aura y activar tu energía vital (KAE), permitiéndote vivir en plena coherencia con tu verdadero ser.
+                    </p>
+                    <div class="mt-12 grid md:grid-cols-3 gap-8">
+                        <!-- Tarjetas con efecto de vidrio -->
+                        <div class="glass-card fade-in" style="transition-delay: 100ms;">
+                            <span class="octagonal-star text-destello text-3xl mb-4 mx-auto"></span>
+                            <h3 class="font-display text-2xl font-semibold mb-3 text-texto">Armonía Energética</h3>
+                            <p class="text-texto/70 text-sm">Restauramos el flujo natural de tu energía para un bienestar profundo.</p>
+                        </div>
+                        <div class="glass-card fade-in" style="transition-delay: 200ms;">
+                            <span class="octagonal-star text-destello text-3xl mb-4 mx-auto"></span>
+                            <h3 class="font-display text-2xl font-semibold mb-3 text-texto">Activación KAE</h3>
+                            <p class="text-texto/70 text-sm">Te conectamos con tu energía Kundalini para una transformación consciente.</p>
+                        </div>
+                        <div class="glass-card fade-in" style="transition-delay: 300ms;">
+                            <span class="octagonal-star text-destello text-3xl mb-4 mx-auto"></span>
+                            <h3 class="font-display text-2xl font-semibold mb-3 text-texto">Espacio Sagrado</h3>
+                            <p class="text-texto/70 text-sm">Creamos un entorno seguro y elevado para tu proceso de sanación.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-20 md:py-24 bg-texto/5">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 fade-in">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-4 text-texto">Nuestros Servicios</h2>
+                    <p class="max-w-3xl mx-auto text-texto/70 text-lg">Explorá las vías para tu purificación y expansión energética.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Tarjetas de servicio con efecto de vidrio -->
+                    <div class="glass-card flex flex-col fade-in">
+                        <h3 class="font-display text-2xl font-bold mb-3 text-texto">Sesiones de Limpieza Energética</h3>
+                        <p class="text-texto/70 leading-relaxed mb-4">Purificación profunda de tu campo áurico y liberación de energías estancadas.</p>
+                        <!-- Botón "Agendar Sesión" ahora enlaza a Calendly -->
+                        <a href="https://calendly.com/mbustosvillar/nueva-reunion-1" target="_blank" class="btn-primary mt-auto" aria-label="Agendar sesión de limpieza">Agendar Sesión</a>
+                    </div>
+                    <div class="glass-card flex flex-col fade-in">
+                        <h3 class="font-display text-2xl font-bold mb-3 text-texto">Activación de Energía Kundalini (KAE)</h3>
+                        <p class="text-texto/70 leading-relaxed mb-4">Experiencias guiadas para despertar tu energía vital y potenciar tu conciencia.</p>
+                        <!-- Botón "Explorar KAE" ahora enlaza a la sección de servicios -->
+                        <a href="#services" class="btn-primary mt-auto scroll-link" aria-label="Explorar activación KAE">Explorar KAE</a>
+                    </div>
+                    <div class="glass-card flex flex-col fade-in">
+                        <h3 class="font-display text-2xl font-bold mb-3 text-texto">Consultas Energéticas Personalizadas</h3>
+                        <p class="text-texto/70 leading-relaxed mb-4">Orientación individual para comprender y optimizar tu flujo energético.</p>
+                        <!-- Botón "Reservar Consulta" ahora enlaza a Calendly -->
+                        <a href="https://calendly.com/mbustosvillar/nueva-reunion-1" target="_blank" class="btn-primary mt-auto" aria-label="Reservar consulta personalizada">Reservar Consulta</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloque de Testimonios Animados Fade-in -->
+        <section id="testimonials" class="py-20 md:py-32 bg-fondo/50">
+            <div class="container mx-auto px-6 text-center max-w-4xl">
+                <div class="fade-in">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-6 text-texto">Voces de Transformación</h2>
+                    <p class="text-xl md:text-2xl text-texto/80 leading-relaxed mb-12 font-light">Experiencias que inspiran.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Testimonio 1 -->
+                    <div class="glass-card text-left fade-in" style="transition-delay: 100ms;">
+                        <p class="text-texto/80 text-lg italic mb-4">"La limpieza energética fue profunda y liberadora. Sentí una claridad que no experimentaba hace años."</p>
+                        <p class="font-semibold text-texto">- A.M., Argentina</p>
+                    </div>
+                    <!-- Testimonio 2 -->
+                    <div class="glass-card text-left fade-in" style="transition-delay: 200ms;">
+                        <p class="text-texto/80 text-lg italic mb-4">"La activación KAE fue una experiencia transformadora. Me siento más conectada con mi propósito."</p>
+                        <p class="font-semibold text-texto">- C.R., España</p>
+                    </div>
+                    <!-- Testimonio 3 -->
+                    <div class="glass-card text-left fade-in" style="transition-delay: 300ms;">
+                        <p class="text-texto/80 text-lg italic mb-4">"NectarLux Studio me brindó las herramientas para entender y armonizar mi energía diaria. ¡Increíble!"</p>
+                        <p class="font-semibold text-texto">- J.L., México</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center max-w-4xl">
+                <div class="fade-in">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-6 text-texto">Conectate con Nosotros</h2>
+                    <p class="text-xl md:text-2xl text-texto/80 leading-relaxed mb-8 font-light">Iniciá tu viaje hacia la plenitud.</p>
+                    <p class="text-base md:text-lg text-texto/70 leading-loose mb-8">
+                        Si sentís el llamado a explorar tu energía y potenciar tu bienestar, contactanos. Estamos aquí para guiarte.
+                    </p>
+                    <a href="mailto:studio@nectarlux.com" class="btn-solid-primary" aria-label="Enviar un correo electrónico a NectarLux Studio">Enviar un Email</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-16 bg-texto text-fondo/70">
+        <div class="container mx-auto px-6 text-center">
+            <p class="font-display text-3xl mb-4 tracking-wider">SACRA SIT MIHI LUX</p> <!-- Mini-mantra -->
+            <p class="text-sm tracking-wider mb-2">© 2025 NectarLux Studio. Todos los derechos reservados.</p>
+            <div class="flex justify-center space-x-4 text-sm">
+                <a href="#" class="hover:text-destello transition-colors">Términos y Condiciones</a>
+                <a href="#" class="hover:text-destello transition-colors">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Parallax en la imagen del hero
+            gsap.to("#hero-image", {
+                yPercent: 10, // Leve parallax (translate-y 10%)
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // IntersectionObserver para el fade-in
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.2 }); // Umbral de 20% visible para activar
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Smooth scrolling para enlaces internos
+            document.querySelectorAll('a.nav-link, a.scroll-link').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
